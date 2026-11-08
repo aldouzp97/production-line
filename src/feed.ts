@@ -1,7 +1,6 @@
 import Chance from "chance";
 import { COMPONENTS, type Component, type ItemSlot } from "./item";
 
-
 export type FeedWeights = Record<Component | "empty", number>;
 
 export class Feed {
