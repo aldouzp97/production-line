@@ -1,9 +1,13 @@
 import Chance from "chance";
 import { COMPONENTS, type Component, type ItemSlot } from "./item";
 
+export interface Feed {
+  next(): ItemSlot;
+}
+
 export type FeedWeights = Record<Component | "empty", number>;
 
-export class Feed {
+export class RandomFeed implements Feed {
   private readonly chance: Chance.Chance;
   private readonly outcomes: ItemSlot[] = [null, ...COMPONENTS];
   private readonly outcomeWeights: number[];
