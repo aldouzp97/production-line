@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ConveyerBelt } from "../src/belt";
+import { ConveyerBelt } from "../src/conveyer-belt";
 import { Item } from "../src/item";
 
 test("items move forward one slot per advance and fall off the end", () => {
