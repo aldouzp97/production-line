@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { Belt } from "../src/belt";
+import { ConveyerBelt } from "../src/belt";
 import { Item } from "../src/item";
 
 test("items move forward one slot per advance and fall off the end", () => {
-  const belt = new Belt(2);
+  const belt = new ConveyerBelt(2);
 
   assert.equal(belt.advance(Item.A), null);
   assert.equal(belt.itemAt(0), Item.A);
@@ -19,7 +19,7 @@ test("items move forward one slot per advance and fall off the end", () => {
 });
 
 test("length never changes as the belt advances", () => {
-  const belt = new Belt(3);
+  const belt = new ConveyerBelt(3);
 
   for (let step = 0; step < 10; step++) {
     belt.advance(Item.A);
@@ -29,7 +29,7 @@ test("length never changes as the belt advances", () => {
 });
 
 test("set replaces the contents of a slot", () => {
-  const belt = new Belt(3);
+  const belt = new ConveyerBelt(3);
 
   belt.setItemAt(1, Item.Product);
 
@@ -37,7 +37,7 @@ test("set replaces the contents of a slot", () => {
 });
 
 test("rejects positions off the belt", () => {
-  const belt = new Belt(3);
+  const belt = new ConveyerBelt(3);
 
   assert.throws(() => belt.itemAt(-1));
   assert.throws(() => belt.itemAt(3));
@@ -45,6 +45,6 @@ test("rejects positions off the belt", () => {
 });
 
 test("rejects invalid belt lengths", () => {
-  assert.throws(() => new Belt(0));
-  assert.throws(() => new Belt(2.5));
+  assert.throws(() => new ConveyerBelt(0));
+  assert.throws(() => new ConveyerBelt(2.5));
 });

@@ -1,7 +1,7 @@
 import { ItemSlot } from "./item";
 import { assertTruthy } from "./utils";
 
-export class Belt {
+export class ConveyerBelt {
   private readonly slots: ItemSlot[];
 
   constructor(length: number) {
