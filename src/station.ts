@@ -1,4 +1,5 @@
 import type { ConveyerBelt } from "./conveyer-belt";
+import { Item } from "./item";
 import { assertTruthy } from "./utils";
 import type { Worker } from "./worker";
 
@@ -17,6 +18,17 @@ export class Station {
 
     this.beltPosition = beltPosition;
     this.workers = workers;
+  }
+
+  get itemsHeld(): Item[] {
+    return this.workers.flatMap((worker) => [...worker.itemsHeld]);
+  }
+
+  get productsAssembled(): number {
+    return this.workers.reduce(
+      (total, worker) => total + worker.totalProductsAssembled,
+      0,
+    );
   }
 
   progressStep(belt: ConveyerBelt): void {
