@@ -1,0 +1,24 @@
+{
+  "name": "production-line",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts",
+    "start": "tsx src/main.ts",
+    "typecheck": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chance": "^1.1.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/chance": "^1.1.8",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
