@@ -1,5 +1,5 @@
 import type { ConveyerBelt } from "./conveyer-belt";
-import { Item } from "./item";
+import type { Item } from "./item";
 import { assertTruthy } from "./utils";
 import type { Worker } from "./worker";
 
