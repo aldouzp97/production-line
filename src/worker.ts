@@ -25,8 +25,38 @@ export class Worker {
     return this.assembledCount;
   }
 
+  // When worker has all required components this will run every "step"
+  progressAssembly(): void {
+    if (!this.isAssembling) {
+      return;
+    }
+
+    this.assemblyStepsLeft -= 1;
+
+    if (!this.isAssembling) {
+      this.finishAssembly();
+    }
+  }
+
+  // Returns what the slot should now contain. If the worker did nothing, that's the item already there.
+  tryAct(itemInFront: ItemSlot): ItemSlot {
+    if (this.isAssembling) {
+      return itemInFront;
+    }
+
+    if (this.isHoldingProduct) {
+      return this.tryPlaceProduct(itemInFront);
+    }
+
+    return this.tryPickUp(itemInFront);
+  }
+
   private get isAssembling(): boolean {
     return this.assemblyStepsLeft > 0;
+  }
+
+  private get isHoldingProduct(): boolean {
+    return this.heldItems.includes(Item.Product);
   }
 
   private get hasAllComponents(): boolean {
@@ -42,10 +72,7 @@ export class Worker {
   }
 
   private tryPlaceProduct(itemInFront: ItemSlot): ItemSlot {
-    assertTruthy(
-      this.heldItems.includes(Item.Product),
-      `No assembled product to place.`,
-    );
+    assertTruthy(this.isHoldingProduct, "No assembled product to place.");
 
     if (isDefined(itemInFront)) {
       return itemInFront;
@@ -80,31 +107,5 @@ export class Worker {
     );
     this.heldItems = [Item.Product];
     this.assembledCount += 1;
-  }
-
-  // When worker has all required components this will run every "step"
-  progressAssembly(): void {
-    if (!this.isAssembling) {
-      return;
-    }
-
-    this.assemblyStepsLeft -= 1;
-
-    if (!this.isAssembling) {
-      this.finishAssembly();
-    }
-  }
-
-  // Returns what the slot should now contain. If the worker did nothing, that's the item already there.
-  tryAct(itemInFront: ItemSlot): ItemSlot {
-    if (this.isAssembling) {
-      return itemInFront;
-    }
-
-    if (this.heldItems.includes(Item.Product)) {
-      return this.tryPlaceProduct(itemInFront);
-    }
-
-    return this.tryPickUp(itemInFront);
   }
 }
