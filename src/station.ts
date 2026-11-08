@@ -4,6 +4,7 @@ import { assertTruthy } from "./utils";
 import type { Worker } from "./worker";
 
 export const MAX_WORKERS = 2;
+const WORKER_COLUMN_WIDTH = 7; // Log formatting
 
 export class Station {
   private readonly beltPosition: number;
@@ -29,6 +30,13 @@ export class Station {
       (total, worker) => total + worker.totalProductsAssembled,
       0,
     );
+  }
+
+  describe(): string {
+    const workers = this.workers
+      .map((worker) => worker.describe().padEnd(WORKER_COLUMN_WIDTH))
+      .join(" ");
+    return `S${this.beltPosition} ${workers}`;
   }
 
   progressStep(belt: ConveyerBelt): void {

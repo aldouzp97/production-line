@@ -9,8 +9,9 @@ import { Station } from "./station";
 import { isDefined } from "./utils";
 import { Worker } from "./worker";
 
-function readConfig(): Config {
-  const configPath = process.argv[2];
+const VERBOSE_FLAG = "--verbose";
+
+function readConfig(configPath: string | undefined): Config {
   return parseConfig(
     isDefined(configPath) ? JSON.parse(readFileSync(configPath, "utf8")) : {},
   );
@@ -31,9 +32,11 @@ function createSimulation(config: Config, seed: number): Simulation {
 }
 
 function main(): void {
-  const config = readConfig();
+  const args = process.argv.slice(2);
+  const config = readConfig(args.find((arg) => arg !== VERBOSE_FLAG));
   const seed = config.seed ?? new Chance().natural();
-  const result = createSimulation(config, seed).run(config.steps);
+  const logStep = args.includes(VERBOSE_FLAG) ? console.log : undefined;
+  const result = createSimulation(config, seed).run(config.steps, logStep);
 
   console.log(`Seed: ${seed}`);
   console.log(`Finished products: ${result.products}`);

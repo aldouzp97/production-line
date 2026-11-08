@@ -51,6 +51,13 @@ export class Worker {
     return this.tryPickUp(itemInFront);
   }
 
+  describe(): string {
+    const items = this.heldItems.join(" ");
+    return this.isAssembling
+      ? `[${items}:${this.assemblyStepsLeft}]`
+      : `[${items}]`;
+  }
+
   private get isAssembling(): boolean {
     return this.assemblyStepsLeft > 0;
   }

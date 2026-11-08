@@ -44,15 +44,16 @@ export class Simulation {
     this.feed = feed;
   }
 
-  run(steps: number): SimulationResult {
+  run(steps: number, logStep?: (line: string) => void): SimulationResult {
     assertTruthy(
       Number.isInteger(steps) && steps >= 0,
       `Steps must be a non-negative integer, got ${steps}`,
     );
 
     for (let step = 0; step < steps; step++) {
-      this.progressStep();
+      const incomingItem = this.progressStep();
       this.assertNothingLost();
+      logStep?.(this.describeStep(step + 1, incomingItem));
     }
 
     return {
@@ -64,8 +65,19 @@ export class Simulation {
     };
   }
 
+  private describeStep(step: number, incomingItem: ItemSlot): string {
+    const belt = this.conveyerBelt.items.map((item) => item ?? "-").join("|");
+    const stations = this.stations
+      .map((station) => station.describe())
+      .join(" | ");
+    const left = this.leftBelt;
+    const stepNumber = String(step).padStart(3);
+
+    return `Step ${stepNumber} | in ${incomingItem ?? "-"} | belt [${belt}] | ${stations} | left belt: ${left[Item.Product]} P, ${left[Item.A]} A, ${left[Item.B]} B`;
+  }
+
   // The belt moves first, then workers act on the slot now in front of them.
-  private progressStep(): void {
+  private progressStep(): ItemSlot {
     const incomingItem = this.feed.next();
     assertTruthy(
       incomingItem !== Item.Product,
@@ -80,6 +92,8 @@ export class Simulation {
     for (const station of this.stations) {
       station.progressStep(this.conveyerBelt);
     }
+
+    return incomingItem;
   }
 
   // Every item fed in must still be on the belt, in a worker's hands, off the end, or assembled.

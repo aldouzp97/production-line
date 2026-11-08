@@ -77,6 +77,17 @@ test("the same seed gives the same result", () => {
   assertEqual(first.unusedComponents.B, second.unusedComponents.B);
 });
 
+test("logs the state of the line once per step when given a log function", () => {
+  const simulation = singleWorkerSimulation([Item.A, Item.B]);
+  const lines: string[] = [];
+
+  simulation.run(3, (line) => lines.push(line));
+
+  assertEqual(lines.length, 3);
+  assertEqual(lines[0], "Step   1 | in A | belt [-] | S0 [A]     | left belt: 0 P, 0 A, 0 B");
+  assertEqual(lines[2], "Step   3 | in - | belt [-] | S0 [A B:3] | left belt: 0 P, 0 A, 0 B");
+});
+
 test("rejects a feed that supplies finished products", () => {
   const simulation = singleWorkerSimulation([Item.Product]);
 

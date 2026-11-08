@@ -10,9 +10,12 @@ You'll need pnpm and the Node version in `.nvmrc`.
 pnpm install
 pnpm start                       # defaults from the brief, random seed (printed)
 pnpm start config.example.json   # custom config; omitted fields use the defaults
+pnpm start --verbose             # also logs the belt and workers on every step
 pnpm test
 pnpm typecheck
 ```
+
+In the verbose log, `in` is what entered the belt on that step, `S0` is the station at belt position 0, and its workers are listed top first. `[A B:3]` means that worker is assembling with 3 steps left, and `-` is an empty belt slot.
 
 The seed gets printed on every run. If you want to replay a run, add that number as `"seed"` in your config file.
 
