@@ -3,7 +3,7 @@ import type { Item } from "./item";
 import { assertTruthy } from "./utils";
 import type { Worker } from "./worker";
 
-const MAX_WORKERS = 2;
+export const MAX_WORKERS = 2;
 
 export class Station {
   private readonly beltPosition: number;
