@@ -11,7 +11,9 @@ import { Worker } from "./worker";
 
 function readConfig(): Config {
   const configPath = process.argv[2];
-  return parseConfig(isDefined(configPath) ? JSON.parse(readFileSync(configPath, "utf8")) : {});
+  return parseConfig(
+    isDefined(configPath) ? JSON.parse(readFileSync(configPath, "utf8")) : {},
+  );
 }
 
 function createSimulation(config: Config, seed: number): Simulation {

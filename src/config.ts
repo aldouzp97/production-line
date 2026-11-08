@@ -33,7 +33,8 @@ const configSchema = z
     seed: z.int().optional(),
   })
   .refine(
-    (config) => config.stations.every((station) => station.position < config.beltLength),
+    (config) =>
+      config.stations.every((station) => station.position < config.beltLength),
     { message: "Every station must be on the belt", path: ["stations"] },
   )
   .refine(
