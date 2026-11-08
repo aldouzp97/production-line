@@ -17,6 +17,10 @@ export class ConveyerBelt {
     return this.slots.length;
   }
 
+  get items(): readonly ItemSlot[] {
+    return this.slots;
+  }
+
   private assertOnBelt(position: number): void {
     assertTruthy(
       Number.isInteger(position) && position >= 0 && position < this.length,
