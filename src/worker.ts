@@ -7,6 +7,7 @@ export class Worker {
   private readonly assemblySteps: number;
   private heldItems: Item[] = [];
   private assemblyStepsLeft = 0;
+  private assembledCount = 0;
 
   constructor(assemblySteps: number) {
     assertTruthy(
@@ -14,6 +15,14 @@ export class Worker {
       `Assembly steps must be a positive integer, got ${assemblySteps}`,
     );
     this.assemblySteps = assemblySteps;
+  }
+
+  get itemsHeld(): readonly Item[] {
+    return this.heldItems;
+  }
+
+  get totalProductsAssembled(): number {
+    return this.assembledCount;
   }
 
   private get isAssembling(): boolean {
@@ -70,6 +79,7 @@ export class Worker {
       "Assembly finished without all required components",
     );
     this.heldItems = [Item.Product];
+    this.assembledCount += 1;
   }
 
   // When worker has all required components this will run every "step"
