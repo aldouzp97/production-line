@@ -6,7 +6,7 @@ import { Worker } from "../src/worker";
 const ASSEMBLY_STEPS = 4;
 
 function step(worker: Worker, itemInFront: ItemSlot): ItemSlot {
-  worker.assembling();
+  worker.progressAssembly();
   return worker.tryAct(itemInFront);
 }
 

@@ -73,7 +73,7 @@ export class Worker {
   }
 
   // When worker has all required components this will run every "step"
-  assembling(): void {
+  progressAssembly(): void {
     if (!this.isAssembling) {
       return;
     }
