@@ -58,16 +58,28 @@ test("leaves items on the belt while assembling", () => {
   assertEqual(step(worker, Item.B), Item.B);
 });
 
-test("waits for an empty slot, and collects nothing while holding a product", () => {
-  const worker = new Worker(ASSEMBLY_STEPS);
+test("waits for an empty slot before placing the product", () => {
+  const worker = new Worker(1);
   step(worker, Item.A);
   step(worker, Item.B);
-  step(worker, null);
-  step(worker, null);
-  step(worker, null);
 
-  assertEqual(step(worker, Item.A), Item.A);
+  assertEqual(step(worker, Item.Product), Item.Product);
+  assertEqual(step(worker, null), Item.Product);
+});
+
+test("picks up a component with its free hand while holding a product", () => {
+  const worker = new Worker(1);
+  step(worker, Item.A);
+  step(worker, Item.B);
+
+  assertEqual(step(worker, Item.A), null);
+
+  // Both hands are now full, so the B stays on the belt.
   assertEqual(step(worker, Item.B), Item.B);
+  assertEqual(step(worker, null), Item.Product);
+
+  // The A is still held after placing, so this B starts the next assembly.
+  assertEqual(step(worker, Item.B), null);
   assertEqual(step(worker, null), Item.Product);
 });
 

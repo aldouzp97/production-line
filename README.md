@@ -19,7 +19,7 @@ In the verbose log, `in` is what entered the belt on that step, `S0` is the stat
 
 The seed gets printed on every run. If you want to replay a run, add that number as `"seed"` in your config file.
 
-**Note:** Results vary quite a bit from run to run, so I would compare setups by averaging over lots of seeds rather than trusting a single run. With the defaults you should see about 25 finished products and 8 unused components on average over 2,000 seeds.
+**Note:** Results vary quite a bit from run to run, so I would compare setups by averaging over lots of seeds rather than trusting a single run. With the defaults you should see about 25 finished products and 6 unused components on average over 2,000 seeds.
 
 ## Assumptions
 
@@ -32,7 +32,8 @@ The brief leaves a few things open, so these are the assumptions I went with:
 - The belt is 3 slots long by default. The brief doesn't give a length, and 3 is the shortest belt that fits three pairs of workers.
 - Only items that come off the end of the belt are counted. Anything still on the belt when the simulation finishes is ignored.
 - Workers only pick up a component they aren't already holding, in any order, and they never pick up a finished product off the belt.
-- A worker holding a product has to place it before collecting new components, even with a free hand.
+- Workers are greedy. They take a component they need at the first chance, even on the step it enters the belt, and start assembling as soon as they have both.
+- A worker holding a product places it as soon as the slot in front of them is empty. If the slot isn't empty, they can still pick up a component they need with their free hand.
 - If a worker picks up their last component at step t, they can't touch the belt until t+4. If the slot in front of them is occupied at that point, they wait for an empty one before placing the product.
 
 ## Flexibility

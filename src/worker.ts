@@ -44,8 +44,8 @@ export class Worker {
       return itemInFront;
     }
 
-    if (this.isHoldingProduct) {
-      return this.tryPlaceProduct(itemInFront);
+    if (this.isHoldingProduct && !isDefined(itemInFront)) {
+      return this.placeProduct();
     }
 
     return this.tryPickUp(itemInFront);
@@ -74,18 +74,15 @@ export class Worker {
     return (
       isDefined(itemInFront) &&
       itemInFront !== Item.Product &&
-      !this.heldItems.includes(itemInFront)
+      !this.heldItems.includes(itemInFront) &&
+      this.heldItems.length < NUMBER_OF_HANDS
     );
   }
 
-  private tryPlaceProduct(itemInFront: ItemSlot): ItemSlot {
+  private placeProduct(): ItemSlot {
     assertTruthy(this.isHoldingProduct, "No assembled product to place.");
 
-    if (isDefined(itemInFront)) {
-      return itemInFront;
-    }
-
-    this.heldItems = [];
+    this.heldItems = this.heldItems.filter((item) => item !== Item.Product);
     return Item.Product;
   }
 
