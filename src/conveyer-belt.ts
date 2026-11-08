@@ -1,4 +1,4 @@
-import { ItemSlot } from "./item";
+import type { ItemSlot } from "./item";
 import { assertTruthy } from "./utils";
 
 export class ConveyerBelt {
@@ -21,13 +21,6 @@ export class ConveyerBelt {
     return this.slots;
   }
 
-  private assertOnBelt(position: number): void {
-    assertTruthy(
-      Number.isInteger(position) && position >= 0 && position < this.length,
-      `Position ${position} is not on a belt of length ${this.length}`,
-    );
-  }
-
   // Moves all items on belt one slot forward and returns what item has exited the belt
   advance(incoming: ItemSlot): ItemSlot {
     const outgoing = this.slots.pop() ?? null;
@@ -43,5 +36,12 @@ export class ConveyerBelt {
   setItemAt(position: number, content: ItemSlot): void {
     this.assertOnBelt(position);
     this.slots[position] = content;
+  }
+
+  private assertOnBelt(position: number): void {
+    assertTruthy(
+      Number.isInteger(position) && position >= 0 && position < this.length,
+      `Position ${position} is not on a belt of length ${this.length}`,
+    );
   }
 }
